@@ -1,11 +1,12 @@
 import emailjs from "@emailjs/browser";
 import { LabTest } from "@/types";
 
-// EmailJS Configuration - Uses environment variables
+// EmailJS Configuration - Hardcoded for frontend use
+// These are public keys meant for client-side use with EmailJS
 const EMAILJS_CONFIG = {
-    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
-    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
-    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
+    serviceId: "service_7wsoj91",
+    templateId: "template_6ybdfou",
+    publicKey: "3z6mCfuhFepiUUrqj",
 };
 
 // Initialize EmailJS
