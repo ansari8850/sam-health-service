@@ -1,11 +1,11 @@
 import emailjs from "@emailjs/browser";
 import { LabTest } from "@/types";
 
-// EmailJS Configuration
+// EmailJS Configuration - Uses environment variables
 const EMAILJS_CONFIG = {
-    serviceId: "service_7wsoj91",
-    templateId: "template_6ybdfou",
-    publicKey: "3z6mCfuhFepiUUrqj",
+    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
 };
 
 // Initialize EmailJS
@@ -46,6 +46,7 @@ export interface BookingEmailData {
     area: string;
     city: string;
     pincode: string;
+    state?: string;
 }
 
 // Send booking email
@@ -58,20 +59,35 @@ export async function sendBookingEmail(formData: BookingEmailData): Promise<{ su
         const testList = formatTestList(formData.selected_tests);
         const totalAmount = calculateTotal(formData.selected_tests);
 
+        // Format full address
+        const fullAddress = [
+            formData.room ? `Flat/House: ${formData.room}` : "",
+            formData.building ? `Building: ${formData.building}` : "",
+            formData.area,
+            formData.landmark ? `Near: ${formData.landmark}` : "",
+            formData.city,
+            formData.state || "Uttar Pradesh",
+            formData.pincode,
+        ].filter(Boolean).join(", ");
+
         const templateParams = {
             first_name: formData.first_name,
             last_name: formData.last_name,
+            full_name: `${formData.first_name} ${formData.last_name}`,
             mobile: formData.mobile,
             tests: formData.selected_tests.length.toString(),
             test_list: testList,
             total_amount: formatCurrency(totalAmount),
-            location: formData.location,
+            location: formData.location || formData.area,
             landmark: formData.landmark || "N/A",
             room: formData.room || "N/A",
+            flat_number: formData.room || "N/A",
             building: formData.building,
             area: formData.area,
             city: formData.city,
+            state: formData.state || "Uttar Pradesh",
             pincode: formData.pincode,
+            full_address: fullAddress,
         };
 
         // Send email via EmailJS
@@ -99,6 +115,6 @@ export function isEmailConfigured(): boolean {
         EMAILJS_CONFIG.serviceId &&
         EMAILJS_CONFIG.templateId &&
         EMAILJS_CONFIG.publicKey &&
-        EMAILJS_CONFIG.serviceId !== "YOUR_SERVICE_ID"
+        EMAILJS_CONFIG.serviceId !== ""
     );
 }

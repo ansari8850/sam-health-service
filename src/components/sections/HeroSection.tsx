@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
 import { Button } from "@/components/ui/Button";
@@ -89,34 +90,31 @@ export const HeroSection: React.FC = () => {
                         </div>
                     </motion.div>
 
-                    {/* Visual */}
+                    {/* Visual - 3D Hero Image */}
                     <motion.div variants={fadeInRight} className="relative">
                         <div className="relative z-10">
-                            {/* Medical Icon Illustration */}
-                            <div className="w-full max-w-md mx-auto">
-                                <motion.div
-                                    animate={{ y: [0, -10, 0] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="relative aspect-square bg-gradient-to-br from-cyan-500 via-teal-500 to-green-500 rounded-3xl p-1"
-                                >
-                                    <div className="w-full h-full bg-white rounded-3xl flex items-center justify-center">
-                                        <div className="text-center p-8">
-                                            <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-cyan-100 to-teal-100 rounded-full flex items-center justify-center">
-                                                <svg className="w-16 h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                            <h3 className="text-xl font-semibold text-gray-900 mb-2">Home Collection</h3>
-                                            <p className="text-gray-500">Safe & convenient sample collection at your doorstep</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
+                            {/* Main 3D Image */}
+                            <motion.div
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="relative"
+                            >
+                                <div className="relative w-full max-w-lg mx-auto">
+                                    <Image
+                                        src="/images/hero-doctor.png"
+                                        alt="Professional healthcare doctor with medical icons"
+                                        width={600}
+                                        height={600}
+                                        className="w-full h-auto drop-shadow-2xl"
+                                        priority
+                                    />
+                                </div>
 
                                 {/* Floating Cards */}
                                 <motion.div
                                     animate={{ x: [0, 10, 0] }}
                                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl p-4"
+                                    className="absolute top-4 right-0 bg-white rounded-2xl shadow-xl p-4"
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -134,7 +132,7 @@ export const HeroSection: React.FC = () => {
                                 <motion.div
                                     animate={{ x: [0, -10, 0] }}
                                     transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                                    className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4"
+                                    className="absolute bottom-16 left-0 bg-white rounded-2xl shadow-xl p-4"
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 bg-cyan-100 rounded-full flex items-center justify-center">
@@ -148,7 +146,7 @@ export const HeroSection: React.FC = () => {
                                         </div>
                                     </div>
                                 </motion.div>
-                            </div>
+                            </motion.div>
                         </div>
                     </motion.div>
                 </motion.div>

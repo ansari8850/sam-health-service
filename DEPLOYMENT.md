@@ -31,8 +31,12 @@ Vercel automatically detects that this is a **Next.js** project, so most setting
 ### 4. Setup Environment Variables (Crucial!)
 You need to add the EmailJS configuration keys so the booking form works on the live site.
 
-1. Expand the **"Environment Variables"** section.
-2. Add the following key-value pairs (copy these from your local `src/lib/emailService.ts` or `Constants` file):
+**Local Development:**
+We have created a `.env.local` file for you. This file is ignored by Git, so your keys are safe.
+
+**Vercel Production:**
+1. Expand the **"Environment Variables"** section in Vercel.
+2. Add the following key-value pairs:
 
 | Key | Value |
 |-----|-------|

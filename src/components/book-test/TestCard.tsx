@@ -1,9 +1,9 @@
 "use client";
 
 import React, { memo } from "react";
-import { motion } from "framer-motion";
 import { LabTest } from "@/types";
 import { formatCurrency } from "@/lib/utils";
+import { CategoryIcon } from "@/components/ui/CategoryIcons";
 
 interface TestCardProps {
     test: LabTest;
@@ -42,10 +42,17 @@ const TestCardComponent: React.FC<TestCardProps> = ({ test, isSelected, onToggle
                 </div>
             </div>
 
-            {/* Category Badge */}
-            <span className="inline-block px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full mb-3">
-                {test.category}
-            </span>
+            {/* Category Icon + Badge */}
+            <div className="flex items-start gap-3 mb-3">
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 p-1.5 shadow-sm">
+                    <CategoryIcon category={test.category} className="w-full h-full" />
+                </div>
+                <div className="flex-1 min-w-0">
+                    <span className="inline-block px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                        {test.category}
+                    </span>
+                </div>
+            </div>
 
             {/* Test Name */}
             <h3 className="font-semibold text-gray-900 mb-1 pr-8 line-clamp-2">

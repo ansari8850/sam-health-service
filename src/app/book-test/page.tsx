@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { LabTest } from "@/types";
 import testsData from "@/data/tests.json";
 import { Input } from "@/components/ui/Input";
@@ -14,7 +14,7 @@ import {
 } from "@/components/book-test";
 import { getUniqueCategories, filterTests, formatCurrency } from "@/lib/utils";
 import { sendBookingEmail, BookingEmailData } from "@/lib/emailService";
-import { LOCATION_OPTIONS } from "@/lib/constants";
+import { STATE_OPTIONS, CITY_OPTIONS, LUCKNOW_AREAS } from "@/lib/constants";
 
 type FormStep = "tests" | "details";
 
@@ -22,13 +22,14 @@ interface BookingFormData {
     first_name: string;
     last_name: string;
     mobile: string;
-    location: string;
-    landmark: string;
-    room: string;
-    building: string;
-    area: string;
+    state: string;
     city: string;
+    area: string;
+    custom_area: string;
+    landmark: string;
     pincode: string;
+    building: string;
+    flat_number: string;
 }
 
 export default function BookTestPage() {
@@ -47,7 +48,17 @@ export default function BookTestPage() {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<BookingFormData>();
+        control,
+    } = useForm<BookingFormData>({
+        defaultValues: {
+            state: "Uttar Pradesh",
+            city: "Lucknow",
+        }
+    });
+
+    // Watch area field to show/hide custom area input
+    const selectedArea = useWatch({ control, name: "area" });
+    const isOtherArea = selectedArea === "Other";
 
     // Derived Data - Memoized for performance
     const tests = testsData as LabTest[];
@@ -98,18 +109,22 @@ export default function BookTestPage() {
         setIsSubmitting(true);
         setErrorMessage(null);
 
+        // Determine the final area value
+        const finalArea = data.area === "Other" ? data.custom_area : data.area;
+
         const emailData: BookingEmailData = {
             first_name: data.first_name,
             last_name: data.last_name,
             mobile: data.mobile,
             selected_tests: selectedTests,
-            location: data.location,
+            location: finalArea, // Area/locality
             landmark: data.landmark,
-            room: data.room,
+            room: data.flat_number,
             building: data.building,
-            area: data.area,
+            area: finalArea,
             city: data.city,
             pincode: data.pincode,
+            state: data.state,
         };
 
         const result = await sendBookingEmail(emailData);
@@ -142,7 +157,7 @@ export default function BookTestPage() {
                     >
                         <h1 className="text-3xl sm:text-4xl font-bold mb-2">Book a Test</h1>
                         <p className="text-white/90 max-w-2xl mx-auto">
-                            Select from our wide range of diagnostic tests and get samples collected at your doorstep
+                            Select from our wide range of diagnostic tests and get samples collected at your doorstep in Lucknow
                         </p>
                     </motion.div>
 
@@ -351,58 +366,94 @@ export default function BookTestPage() {
                             {/* Address Details */}
                             <div className="bg-white rounded-2xl p-6 shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Address Details</h3>
+                                <p className="text-sm text-gray-500 mb-4">Currently serving in Lucknow, Uttar Pradesh</p>
 
                                 <div className="space-y-4">
+                                    {/* State & City (Read-only for now) */}
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Location</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1.5">State</label>
                                             <select
-                                                {...register("location", { required: "Location is required" })}
-                                                className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                                                {...register("state")}
+                                                className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
+                                                disabled
                                             >
-                                                <option value="">Select Location</option>
-                                                {LOCATION_OPTIONS.map((loc) => (
-                                                    <option key={loc} value={loc}>{loc}</option>
+                                                {STATE_OPTIONS.map((state) => (
+                                                    <option key={state} value={state}>{state}</option>
                                                 ))}
                                             </select>
-                                            {errors.location && <p className="mt-1 text-sm text-red-500">{errors.location.message}</p>}
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1.5">City</label>
                                             <select
-                                                {...register("city", { required: "City is required" })}
-                                                className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                                                {...register("city")}
+                                                className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
+                                                disabled
                                             >
-                                                <option value="">Select City</option>
-                                                <option value="Mumbai">Mumbai</option>
-                                                <option value="Thane">Thane</option>
-                                                <option value="Navi Mumbai">Navi Mumbai</option>
+                                                {CITY_OPTIONS.map((city) => (
+                                                    <option key={city} value={city}>{city}</option>
+                                                ))}
                                             </select>
-                                            {errors.city && <p className="mt-1 text-sm text-red-500">{errors.city.message}</p>}
                                         </div>
                                     </div>
 
+                                    {/* Area Selection */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Select Area / Locality</label>
+                                        <select
+                                            {...register("area", { required: "Please select an area" })}
+                                            className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                                        >
+                                            <option value="">Select your area</option>
+                                            {LUCKNOW_AREAS.map((area) => (
+                                                <option key={area} value={area}>{area}</option>
+                                            ))}
+                                        </select>
+                                        {errors.area && <p className="mt-1 text-sm text-red-500">{errors.area.message}</p>}
+                                    </div>
+
+                                    {/* Custom Area Input (when "Other" is selected) */}
+                                    <AnimatePresence>
+                                        {isOtherArea && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: "auto" }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl mb-4">
+                                                    <p className="text-sm text-amber-700">
+                                                        <strong>Note:</strong> You selected &quot;Other&quot;. Please enter your area details manually below.
+                                                    </p>
+                                                </div>
+                                                <Input
+                                                    label="Enter Your Area / Locality"
+                                                    placeholder="e.g., Vikas Nagar Sector 2"
+                                                    {...register("custom_area", {
+                                                        required: isOtherArea ? "Area name is required" : false,
+                                                    })}
+                                                    error={errors.custom_area?.message}
+                                                />
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
+                                    {/* Building & Flat Details */}
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <Input
-                                            label="Room / Flat No."
-                                            placeholder="Enter room/flat number"
-                                            {...register("room")}
-                                        />
-                                        <Input
-                                            label="Building Name"
-                                            placeholder="Enter building name"
+                                            label="Building / Society Name"
+                                            placeholder="Enter building or society name"
                                             {...register("building", { required: "Building name is required" })}
                                             error={errors.building?.message}
                                         />
+                                        <Input
+                                            label="Flat / House No."
+                                            placeholder="Enter flat or house number"
+                                            {...register("flat_number")}
+                                        />
                                     </div>
 
-                                    <Input
-                                        label="Area / Street"
-                                        placeholder="Enter area or street name"
-                                        {...register("area", { required: "Area is required" })}
-                                        error={errors.area?.message}
-                                    />
-
+                                    {/* Landmark & Pincode */}
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <Input
                                             label="Landmark (Optional)"
@@ -499,7 +550,7 @@ export default function BookTestPage() {
                                 Booking Confirmed!
                             </h3>
                             <p className="text-gray-600 mb-6">
-                                Thank you for your booking. Our collection boy will reach your doorstep in the next{" "}
+                                Thank you for your booking. Our collection boy will reach your doorstep in{" "}
                                 <span className="font-semibold text-teal-600">1-2 hours</span>.
                             </p>
 

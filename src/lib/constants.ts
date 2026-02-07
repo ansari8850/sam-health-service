@@ -8,15 +8,21 @@ export const COMPANY_INFO = {
     workingHours: "24/7 Available",
 } as const;
 
-// EmailJS Configuration (Replace with your actual keys)
-export const EMAILJS_CONFIG = {
-    serviceId: "YOUR_SERVICE_ID",
-    templateId: "YOUR_TEMPLATE_ID",
-    publicKey: "YOUR_PUBLIC_KEY",
-} as const;
+// EmailJS Configuration
+// Moved to src/lib/emailService.ts and now uses environment variables
 
-// Location Options for Dropdown - Lucknow Localities
-export const LOCATION_OPTIONS = [
+// State Options (Currently serving Uttar Pradesh only)
+export const STATE_OPTIONS = [
+    "Uttar Pradesh",
+] as const;
+
+// City Options (Currently serving Lucknow only)
+export const CITY_OPTIONS = [
+    "Lucknow",
+] as const;
+
+// Lucknow Area/Locality Options
+export const LUCKNOW_AREAS = [
     // Central Lucknow
     "Hazratganj",
     "Aminabad",
@@ -26,6 +32,8 @@ export const LOCATION_OPTIONS = [
     "Kaiserbagh",
     "Naka Hindola",
     "Qaiserbagh",
+    "Yahiyaganj",
+    "Fatehganj",
     // South Lucknow
     "Gomti Nagar",
     "Gomti Nagar Extension",
@@ -35,6 +43,8 @@ export const LOCATION_OPTIONS = [
     "Indira Nagar",
     "Jankipuram",
     "Jankipuram Extension",
+    "Viraj Khand",
+    "Vibhuti Khand",
     // North Lucknow
     "Alambagh",
     "Charbagh",
@@ -42,6 +52,8 @@ export const LOCATION_OPTIONS = [
     "Rajajipuram",
     "Krishna Nagar",
     "Nirala Nagar",
+    "Dubagga",
+    "Madiaon",
     // West Lucknow
     "Aashiana",
     "Cantt Area",
@@ -49,14 +61,17 @@ export const LOCATION_OPTIONS = [
     "Raebareli Road",
     "Kanpur Road",
     "Sushant Golf City",
+    "Sarojini Nagar",
+    "Gudamba",
     // East Lucknow
     "Chinhat",
     "Faizabad Road",
     "Polytechnic",
     "IIM Road",
     "Sultanpur Road",
-    // Residential Colonies
-    "Vasant Kunj",
+    "Indiranagar",
+    "Sitapur Road",
+    // Residential Colonies & Sectors
     "Sector A Aliganj",
     "Sector B Aliganj",
     "Sector C Aliganj",
@@ -65,36 +80,48 @@ export const LOCATION_OPTIONS = [
     "Sector F Aliganj",
     "Sector G Aliganj",
     "Sector H Aliganj",
+    "Sector I Aliganj",
+    "Sector J Aliganj",
+    "Sector K Aliganj",
+    "Sector L Aliganj",
+    "Sector M Aliganj",
+    "Sector N Aliganj",
+    "Sector O Aliganj",
+    "Sector P Aliganj",
     "LDA Colony",
     "Butler Colony",
     "Civil Lines",
     "Mall Avenue",
-    // Popular Areas
-    "Saharaganj",
-    "Phoenix Palassio",
+    "Vasant Kunj",
+    // Popular Areas & Malls
+    "Saharaganj Mall Area",
+    "Phoenix Palassio Area",
     "Riverside Mall Area",
+    "Lulu Mall Area",
     "IT City Lucknow",
     "Vrindavan Colony",
     "Eldeco Udyan",
     "Omaxe City",
     "Ansal API",
+    "Palm City",
+    "Awadh Vihar Colony",
     // Outer Areas
     "Bakshi Ka Talab",
     "Kakori",
     "Mohanlalganj",
     "Banthra",
     "Itaunja",
+    "Malihabad",
+    "Gosainganj",
+    "Nagram",
+    // Other
     "Other",
 ] as const;
 
-// City Options
-export const CITY_OPTIONS = [
-    "Lucknow",
-    "Kanpur",
-    "Barabanki",
-    "Sitapur",
-    "Other",
-] as const;
+// Legacy export for backward compatibility
+export const LOCATION_OPTIONS = LUCKNOW_AREAS;
+
+
 
 
 // Navigation Links
