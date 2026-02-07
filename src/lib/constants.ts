@@ -4,7 +4,7 @@ export const COMPANY_INFO = {
     tagline: "Your Health, Our Priority",
     phone: "+91 73099 30118",
     email: "contact@samhealthservices.com",
-    address: "123 Healthcare Avenue, Mumbai, Maharashtra 400001",
+    address: "Hazratganj, Lucknow, Uttar Pradesh 226001",
     workingHours: "24/7 Available",
 } as const;
 
@@ -15,48 +15,87 @@ export const EMAILJS_CONFIG = {
     publicKey: "YOUR_PUBLIC_KEY",
 } as const;
 
-// Location Options for Dropdown
+// Location Options for Dropdown - Lucknow Localities
 export const LOCATION_OPTIONS = [
-    "Mumbai Central",
-    "Andheri East",
-    "Andheri West",
-    "Bandra East",
-    "Bandra West",
-    "Borivali East",
-    "Borivali West",
-    "Chembur",
-    "Dadar East",
-    "Dadar West",
-    "Goregaon East",
-    "Goregaon West",
-    "Juhu",
-    "Kandivali East",
-    "Kandivali West",
-    "Kurla East",
-    "Kurla West",
-    "Malad East",
-    "Malad West",
-    "Mulund East",
-    "Mulund West",
-    "Powai",
-    "Santacruz East",
-    "Santacruz West",
-    "Thane East",
-    "Thane West",
-    "Vashi",
-    "Panvel",
-    "Navi Mumbai",
+    // Central Lucknow
+    "Hazratganj",
+    "Aminabad",
+    "Chowk",
+    "Hussainganj",
+    "Lalbagh",
+    "Kaiserbagh",
+    "Naka Hindola",
+    "Qaiserbagh",
+    // South Lucknow
+    "Gomti Nagar",
+    "Gomti Nagar Extension",
+    "Vikas Nagar",
+    "Aliganj",
+    "Mahanagar",
+    "Indira Nagar",
+    "Jankipuram",
+    "Jankipuram Extension",
+    // North Lucknow
+    "Alambagh",
+    "Charbagh",
+    "Aishbagh",
+    "Rajajipuram",
+    "Krishna Nagar",
+    "Nirala Nagar",
+    // West Lucknow
+    "Aashiana",
+    "Cantt Area",
+    "Telibagh",
+    "Raebareli Road",
+    "Kanpur Road",
+    "Sushant Golf City",
+    // East Lucknow
+    "Chinhat",
+    "Faizabad Road",
+    "Polytechnic",
+    "IIM Road",
+    "Sultanpur Road",
+    // Residential Colonies
+    "Vasant Kunj",
+    "Sector A Aliganj",
+    "Sector B Aliganj",
+    "Sector C Aliganj",
+    "Sector D Aliganj",
+    "Sector E Aliganj",
+    "Sector F Aliganj",
+    "Sector G Aliganj",
+    "Sector H Aliganj",
+    "LDA Colony",
+    "Butler Colony",
+    "Civil Lines",
+    "Mall Avenue",
+    // Popular Areas
+    "Saharaganj",
+    "Phoenix Palassio",
+    "Riverside Mall Area",
+    "IT City Lucknow",
+    "Vrindavan Colony",
+    "Eldeco Udyan",
+    "Omaxe City",
+    "Ansal API",
+    // Outer Areas
+    "Bakshi Ka Talab",
+    "Kakori",
+    "Mohanlalganj",
+    "Banthra",
+    "Itaunja",
     "Other",
 ] as const;
 
 // City Options
 export const CITY_OPTIONS = [
-    "Mumbai",
-    "Thane",
-    "Navi Mumbai",
-    "Panvel",
+    "Lucknow",
+    "Kanpur",
+    "Barabanki",
+    "Sitapur",
     "Other",
 ] as const;
+
 
 // Navigation Links
 export const NAV_LINKS = [
