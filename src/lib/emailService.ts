@@ -4,9 +4,9 @@ import { LabTest } from "@/types";
 // EmailJS Configuration - Hardcoded for frontend use
 // These are public keys meant for client-side use with EmailJS
 const EMAILJS_CONFIG = {
-    serviceId: "service_tgdur8p",
-    templateId: "template_6ybdfou",
-    publicKey: "3z6mCfuhFepiUUrqj",
+    serviceId: "service_lm3zp7n",
+    templateId: "template_kyh0iab",
+    publicKey: "YeFFHpYlB0EcfdRSY",
 };
 
 // Initialize EmailJS
