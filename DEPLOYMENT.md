@@ -38,11 +38,7 @@ We have created a `.env.local` file for you. This file is ignored by Git, so you
 1. Expand the **"Environment Variables"** section in Vercel.
 2. Add the following key-value pairs:
 
-| Key | Value |
-|-----|-------|
-| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` | `service_7wsoj91` |
-| `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` | `template_6ybdfou` |
-| `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY` | `3z6mCfuhFepiUUrqj` |
+<!--  -->
 
 > **Note:** Even though we hardcoded these in the code initially, it is best practice to use environment variables in Vercel. If your code currently uses the hardcoded strings, the site will still work without these variables, but adding them now prepares you for a more secure setup later.
 
