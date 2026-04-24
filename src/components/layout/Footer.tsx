@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
                             </svg>
                             {COMPANY_INFO.phone}
                         </div>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-sm break-all">
                             {COMPANY_INFO.email}
                         </p>
 

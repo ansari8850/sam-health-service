@@ -8,6 +8,7 @@ import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer, scrollAnimationPro
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { COMPANY_INFO } from "@/lib/constants";
+import { sendContactEmail } from "@/lib/emailService";
 
 interface ContactFormData {
     name: string;
@@ -20,16 +21,26 @@ export default function ContactPage() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormData>();
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [isSubmitted, setIsSubmitted] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
 
     const onSubmit = async (data: ContactFormData) => {
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        console.log("Contact Form:", data);
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        reset();
-        setTimeout(() => setIsSubmitted(false), 5000);
+        setError(null);
+        
+        try {
+            const result = await sendContactEmail(data);
+            if (result.success) {
+                setIsSubmitted(true);
+                reset();
+                setTimeout(() => setIsSubmitted(false), 5000);
+            } else {
+                setError(result.error || "Failed to send message. Please try again.");
+            }
+        } catch (err) {
+            setError("An unexpected error occurred. Please try again later.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -123,7 +134,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-gray-900">Email</h3>
-                                        <p className="text-cyan-600">{COMPANY_INFO.email}</p>
+                                        <p className="text-cyan-600 break-all">{COMPANY_INFO.email}</p>
                                         <p className="text-gray-500 text-sm">We reply within 24 hours</p>
                                     </div>
                                 </div>
@@ -172,6 +183,19 @@ export default function ContactPage() {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         Thank you! We&apos;ll get back to you soon.
+                                    </motion.div>
+                                )}
+
+                                {error && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 flex items-center gap-3"
+                                    >
+                                        <svg className="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        {error}
                                     </motion.div>
                                 )}
 

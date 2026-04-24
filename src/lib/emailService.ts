@@ -1,12 +1,11 @@
 import emailjs from "@emailjs/browser";
 import { LabTest } from "@/types";
 
-// EmailJS Configuration - Hardcoded for frontend use
-// These are public keys meant for client-side use with EmailJS
+// EmailJS Configuration
 const EMAILJS_CONFIG = {
-    serviceId: "service_lm3zp7n",
-    templateId: "template_kyh0iab",
-    publicKey: "YeFFHpYlB0EcfdRSY",
+    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_izlx3a7",
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_dle0n2u",
+    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "R_d5AsHBL-POR-cgP",
 };
 
 // Initialize EmailJS
@@ -50,6 +49,14 @@ export interface BookingEmailData {
     state?: string;
 }
 
+// Contact form data interface
+export interface ContactEmailData {
+    name: string;
+    email: string;
+    phone: string;
+    message: string;
+}
+
 // Send booking email
 export async function sendBookingEmail(formData: BookingEmailData): Promise<{ success: boolean; error?: string }> {
     try {
@@ -72,23 +79,24 @@ export async function sendBookingEmail(formData: BookingEmailData): Promise<{ su
         ].filter(Boolean).join(", ");
 
         const templateParams = {
-            first_name: formData.first_name,
-            last_name: formData.last_name,
-            full_name: `${formData.first_name} ${formData.last_name}`,
-            mobile: formData.mobile,
-            tests: formData.selected_tests.length.toString(),
-            test_list: testList,
+            request_type: "Booking Request",
+            first_name: formData.first_name || "",
+            last_name: formData.last_name || "",
+            full_name: `${formData.first_name || ""} ${formData.last_name || ""}`.trim(),
+            mobile: formData.mobile || "",
+            tests: (formData.selected_tests?.length || 0).toString(),
+            test_list: testList || "No tests selected",
             total_amount: formatCurrency(totalAmount),
-            location: formData.location || formData.area,
+            location: formData.location || formData.area || "",
             landmark: formData.landmark || "N/A",
             room: formData.room || "N/A",
             flat_number: formData.room || "N/A",
-            building: formData.building,
-            area: formData.area,
-            city: formData.city,
+            building: formData.building || "",
+            area: formData.area || "",
+            city: formData.city || "",
             state: formData.state || "Uttar Pradesh",
-            pincode: formData.pincode,
-            full_address: fullAddress,
+            pincode: formData.pincode || "",
+            full_address: fullAddress || "",
         };
 
         // Send email via EmailJS
@@ -99,13 +107,48 @@ export async function sendBookingEmail(formData: BookingEmailData): Promise<{ su
             EMAILJS_CONFIG.publicKey
         );
 
-        console.log("Email sent successfully:", response);
+        console.log("Booking email sent successfully:", response);
         return { success: true };
     } catch (error) {
-        console.error("Email sending failed:", error);
+        console.error("Booking email sending failed:", error);
         return {
             success: false,
             error: error instanceof Error ? error.message : "Failed to send booking confirmation",
+        };
+    }
+}
+
+// Send contact inquiry email
+export async function sendContactEmail(formData: ContactEmailData): Promise<{ success: boolean; error?: string }> {
+    try {
+        // Initialize EmailJS if not already
+        initEmailJS();
+
+        const templateParams = {
+            request_type: "Contact Inquiry",
+            full_name: formData.name || "",
+            from_name: formData.name || "",
+            reply_to: formData.email || "",
+            email: formData.email || "",
+            mobile: formData.phone || "",
+            message: formData.message || "",
+        };
+
+        // Send email via EmailJS
+        const response = await emailjs.send(
+            EMAILJS_CONFIG.serviceId,
+            EMAILJS_CONFIG.templateId,
+            templateParams,
+            EMAILJS_CONFIG.publicKey
+        );
+
+        console.log("Contact email sent successfully:", response);
+        return { success: true };
+    } catch (error) {
+        console.error("Contact email sending failed:", error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : "Failed to send message",
         };
     }
 }

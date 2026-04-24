@@ -132,7 +132,7 @@ export default function SupportPage() {
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
                                 <p className="text-gray-500 text-sm mb-4">{item.description}</p>
-                                <span className="inline-flex items-center gap-1 text-teal-600 font-semibold group-hover:text-teal-700">
+                                <span className="flex items-center gap-1 text-teal-600 font-semibold group-hover:text-teal-700 break-all text-sm sm:text-base">
                                     {item.action}
                                     <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -3,7 +3,7 @@ export const COMPANY_INFO = {
     name: "SAM HEALTH SERVICES",
     tagline: "Your Health, Our Priority",
     phone: "+91 73099 30118",
-    email: "contact@samhealthservices.com",
+    email: "contactandsupport@samhealthservice.com",
     address: "Hazratganj, Lucknow, Uttar Pradesh 226001",
     workingHours: "24/7 Available",
 } as const;

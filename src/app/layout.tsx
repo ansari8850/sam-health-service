@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   authors: [{ name: "SAM Health Services" }],
   creator: "SAM Health Services",
   publisher: "SAM Health Services",
-  metadataBase: new URL("https://samhealthservices.com"),
+  metadataBase: new URL("https://samhealthservice.com"),
   robots: {
     index: true,
     follow: true,
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://samhealthservices.com",
+    url: "https://samhealthservice.com",
     siteName: "SAM Health Services",
     title: "SAM Health Services - Home Diagnostic Tests in Mumbai",
     description:
@@ -67,8 +67,10 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
     apple: "/apple-touch-icon.png",
   },
 };
